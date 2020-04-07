@@ -1,6 +1,6 @@
 # Sprint 12 Demo
 
-Basic explanations for node/express key features such as:
+Basic explanations for node/express core features such as:
 
 - streams
 
