@@ -1,34 +1,12 @@
 const router = require('express').Router();
-const https = require('https');
-const { Transform } = require('stream');
+const cardController = require('../../controllers/card');
 
-router.get('/', (req, res) => {
-    const myTransform = new Transform({
-        writableObjectMode: true,
+router.get('/', cardController.find);
 
-        transform(chunk, encoding, callback) {
-            try{
-                const trasformed = chunk.toString().toUpperCase();
-                callback(null, trasformed);
-            }
-            catch(err){
-                callback(err, null);
-            }
-        }
-    });
+router.get('/:cardId', cardController.getCardMiddleware, cardController.findOne);
 
-    const options = {
-        hostname: 'praktikum.tk',
-        port: 443,
-        path: '/static/cards.json',
-        method: 'GET'
-    }
+router.delete('/:cardId', cardController.getCardMiddleware, cardController.deleteCard);
 
-    const request = https.request(options, stream => {
-        stream.pipe(myTransform).pipe(res);
-    })
-
-    request.end()
-})
+router.post('/', cardController.create);
 
 module.exports = router;
