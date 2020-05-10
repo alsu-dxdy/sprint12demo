@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    name: {
+    email: {
         type: String,
         required: true,
+        unique: true,
         minlength: 2,
         maxlength: 30,
     },
-    link: {
+    password: {
         type: String,
         required: true,
-        minlength: 2,
-        maxlength: 30,
-        match: /https?.*/
+        select: false,
     }
 })
 

@@ -3,6 +3,10 @@ const app = express();
 const router = require('./routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const config = require('./config');
+const cookieParser = require('cookie-parser');
+
+console.log(config);
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -11,7 +15,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-
+app.use(cookieParser());
 
 app.use((req, res, next) => {
     req.user = {
