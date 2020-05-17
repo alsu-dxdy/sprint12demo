@@ -3,10 +3,9 @@ const app = express();
 const router = require('./routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const config = require('./config');
 const cookieParser = require('cookie-parser');
-
-console.log(config);
+const {errors} = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -14,6 +13,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+app.use(requestLogger);
 
 app.use(cookieParser());
 
@@ -33,10 +34,10 @@ app.listen(3000, ()=>{
     console.log('Server is running on port 3000');
 })
 
-// {
-//     status: 404,
-//     message: '123123'
-// }
+
+app.use(errorLogger);
+app.use(errors());
+
 app.use(function (err, req, res, next) {
     const status = err.status || 500;
     let message = err.message;
