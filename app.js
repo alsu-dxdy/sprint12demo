@@ -40,7 +40,7 @@ app.listen(3000, ()=>{
 app.use(function (err, req, res, next) {
     const status = err.status || 500;
     let message = err.message;
-    if (err.name === 'ValidationError'){
+    if (err.name === 'ValidationError' || err.joi){
         return res.status(400).send(`validation error:\n${err.message}`);        
     }
 
